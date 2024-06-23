@@ -57,6 +57,7 @@ a:hover {
     border-radius: 10px;
     padding: 20px;
     margin-top: 20px;
+    position: relative; /* Ensures no elements are displayed above it */
 }
 
 .game-thumbnail {
@@ -69,6 +70,7 @@ a:hover {
 .game-details {
     text-align: left;
     margin-top: 20px;
+    width: 100%; /* Ensures it does not float above the thumbnail */
 }
 
 .game-details h2 {
