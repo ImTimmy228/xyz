@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Random Game Chooser</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="font.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Roblox Random Game Chooser</h1>
+        <p>Click the button below to choose a random Roblox game from the list.</p>
+        <button onclick="chooseRandomGame()">Choose Random Game</button>
+        <div id="gameInfo"></div>
+    </div>
+
+    <script>
+        async function fetchGames() {
+            const response = await fetch('games.json');
+            const games = await response.json();
+            return games;
+        }
+
+        async function chooseRandomGame() {
+            const games = await fetchGames();
+            const randomIndex = Math.floor(Math.random() * games.length);
+            const game = games[randomIndex];
+            displayGameInfo(game);
+        }
+
+        function displayGameInfo(game) {
+            const gameInfoDiv = document.getElementById('gameInfo');
+            gameInfoDiv.innerHTML = `
+                <div class="game-card">
+                    <img src="${game.thumbnail}" alt="${game.name}" class="game-thumbnail">
+                    <div class="game-details">
+                        <h2><a href="${game.link}" target="_blank">${game.name}</a></h2>
+                        <p>${game.description || 'No description available.'}</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
