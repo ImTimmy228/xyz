@@ -16,16 +16,21 @@
     </div>
 
     <script>
+        let games = [];
+        let remainingGames = [];
+
         async function fetchGames() {
             const response = await fetch('games.json');
-            const games = await response.json();
-            return games;
+            games = await response.json();
+            remainingGames = [...games]; // Initialize remaining games with all games
         }
 
-        async function chooseRandomGame() {
-            const games = await fetchGames();
-            const randomIndex = Math.floor(Math.random() * games.length);
-            const game = games[randomIndex];
+        function chooseRandomGame() {
+            if (remainingGames.length === 0) {
+                remainingGames = [...games]; // Refill the list if all games have been shown
+            }
+            const randomIndex = Math.floor(Math.random() * remainingGames.length);
+            const game = remainingGames.splice(randomIndex, 1)[0]; // Remove the chosen game from the list
             displayGameInfo(game);
         }
 
@@ -41,6 +46,9 @@
                 </div>
             `;
         }
+
+        // Fetch games when the page loads
+        fetchGames();
     </script>
 </body>
 </html>
